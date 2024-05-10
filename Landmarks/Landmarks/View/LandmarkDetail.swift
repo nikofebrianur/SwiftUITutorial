@@ -8,11 +8,53 @@
 import SwiftUI
 
 struct LandmarkDetail: View {
+    var landmark: Landmark
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            MapView(coordinate: landmark.locationCoordinate)
+                .frame(height: 300)
+            
+            CircleImage(image: landmark.image)
+                .offset(y: -130)
+                .padding(.bottom, -130)
+            
+            VStack(alignment: .leading) {
+                Image(systemName: "globe")
+                    .foregroundColor(Color.red)
+                    .imageScale(.large)
+                    .foregroundStyle(.tint)
+                Text(landmark.name)
+                    .font(.title)
+                HStack() {
+                    Text(landmark.park)
+                        .font(.subheadline)
+                    Spacer()
+                    Text(landmark.state)
+                        .font(.subheadline)
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                
+                Divider()
+                
+                Text(landmark.name)
+                    .font(.title2)
+                Text(landmark.description)
+            }
+            .padding()
+            
+            Spacer()
+        }
+        .navigationTitle(landmark.name)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
-    LandmarkDetail()
+    let landmarks = ModelData().landmarks
+    return Group {
+        LandmarkRow(landmark: landmarks[0])
+        LandmarkRow(landmark: landmarks[1])
+    }
 }
